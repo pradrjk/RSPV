@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>RSVP for Ayesha & Zain</title>
     <style>
         body {
@@ -54,52 +54,48 @@
     </div>
 </div>
 
+<!-- RSVP Form -->
 <form id="rsvp-form">
-    <input id="name" name="name" type="text" placeholder="Your Name" required>
-    <select id="attendance" name="attendance" required>
+    <input id="name" type="text" placeholder="Your Name" required />
+    <select id="attendance" required>
         <option value="">Will you attend?</option>
         <option value="Yes, I'll be there">Yes, I'll be there</option>
         <option value="Sorry, can't make it">Sorry, can't make it</option>
     </select>
-    <input id="guests" name="guests" type="number" placeholder="Number of Guests" min="1">
+    <input id="guests" type="number" placeholder="Number of Guests" min="1" />
     <button type="submit">Submit RSVP</button>
 </form>
 
-<!-- Scripts placed after the form -->
 <script>
+    // Countdown
     const eventDate = new Date("2025-07-06T18:00:00");
-
     function updateCountdown() {
       const now = new Date();
       const diff = eventDate - now;
-
       if (diff <= 0) {
         document.getElementById("timer").textContent = "The event has started!";
         return;
       }
-
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
-
       document.getElementById("days").textContent = days.toString().padStart(2, '0');
       document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
       document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
       document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
     }
-
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Ensure the DOM is loaded before attaching event listener
+    // Form Submission
     document.getElementById("rsvp-form").addEventListener("submit", function (e) {
       e.preventDefault();
 
       const data = {
         name: document.getElementById("name").value,
         attendance: document.getElementById("attendance").value,
-        guests: document.getElementById("guests").value
+        guests: document.getElementById("guests").value || "0"
       };
 
       fetch("https://script.google.com/macros/s/AKfycbxdcllq84AJPPvUUyxYBjHa1N-V4emJC_9uqgKbV69tGRM9zn9K_eHGWTwj0VP8doyQrA/exec", {
@@ -112,10 +108,11 @@
       .then(response => response.json())
       .then(data => {
         alert("Thank you for your RSVP!");
+        document.getElementById("rsvp-form").reset();
       })
       .catch(error => {
         console.error("Error:", error);
-        alert("Submission failed. Try again later.");
+        alert("Submission failed. Please try again later.");
       });
     });
 </script>
