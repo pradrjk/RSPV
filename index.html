@@ -55,13 +55,13 @@
 </div>
 
 <form id="rsvp-form">
-    <input id="name" type="text" placeholder="Your Name" required>
-    <select id="attendance" required>
+    <input id="name" name="name" type="text" placeholder="Your Name" required>
+    <select id="attendance" name="attendance" required>
         <option value="">Will you attend?</option>
         <option value="Yes, I'll be there">Yes, I'll be there</option>
         <option value="Sorry, can't make it">Sorry, can't make it</option>
     </select>
-    <input id="guests" type="number" placeholder="Number of Guests" min="1">
+    <input id="guests" name="guests" type="number" placeholder="Number of Guests" min="1">
     <button type="submit">Submit RSVP</button>
 </form>
 
