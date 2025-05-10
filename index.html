@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RSVP for Ayesha & Zain</title>
+    <style>
+        body {
+          font-family: 'Helvetica Neue', sans-serif;
+          background: #f7f7f7;
+          padding: 40px;
+          text-align: center;
+        }
+        form {
+          background: #fff;
+          padding: 30px;
+          max-width: 500px;
+          margin: auto;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        input, select, button {
+          display: block;
+          width: 100%;
+          margin: 10px 0;
+          padding: 10px;
+          font-size: 16px;
+        }
+        button {
+          background: #333;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+        }
+        #countdown {
+          margin-bottom: 20px;
+        }
+        #timer span {
+          font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>RSVP for Ayesha & Zain's Wedding</h2>
+
+<!-- Countdown Timer -->
+<div id="countdown">
+    <h2>Countdown to the Event:</h2>
+    <div id="timer">
+        <span id="days">00</span>d :
+        <span id="hours">00</span>h :
+        <span id="minutes">00</span>m :
+        <span id="seconds">00</span>s
+    </div>
+</div>
+
+<form id="rsvp-form">
+    <input name="name" type="text" placeholder="Your Name" required>
+    <select name="attendance" required>
+        <option value="">Will you attend?</option>
+        <option value="Yes, I'll be there">Yes, I'll be there</option>
+        <option value="Sorry, can't make it">Sorry, can't make it</option>
+    </select>
+    <input name="guests" type="number" placeholder="Number of Guests" min="1">
+    <button type="submit">Submit RSVP</button>
+</form>
+
+<script>
+    const eventDate = new Date("2025-07-06T18:00:00");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = eventDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("timer").textContent = "The event has started!";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("days").textContent = days.toString().padStart(2, '0');
+      document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+      document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+      document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    document.getElementById("rsvp-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        name: form.name.value,
+        attendance: form.attendance.value,
+        guests: form.guests.value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbwXwR5tjEoTIgJqL38qteVwmVkO3JT_AmW8xwh3MI0D5HBiTAA4JBLcRxKMgq2gn5HZZg/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.result === "success") {
+          alert("Thank you! Your RSVP has been submitted.");
+          form.reset();
+        } else {
+          alert("There was an error submitting your RSVP. Please try again.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("There was an error submitting your RSVP. Please try again.");
+      });
+    });
+</script>
+
+</body>
+</html>
