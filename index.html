@@ -55,16 +55,17 @@
 </div>
 
 <form id="rsvp-form">
-    <input name="name" type="text" placeholder="Your Name" required>
-    <select name="attendance" required>
+    <input id="name" type="text" placeholder="Your Name" required>
+    <select id="attendance" required>
         <option value="">Will you attend?</option>
         <option value="Yes, I'll be there">Yes, I'll be there</option>
         <option value="Sorry, can't make it">Sorry, can't make it</option>
     </select>
-    <input name="guests" type="number" placeholder="Number of Guests" min="1">
+    <input id="guests" type="number" placeholder="Number of Guests" min="1">
     <button type="submit">Submit RSVP</button>
 </form>
 
+<!-- Scripts placed after the form -->
 <script>
     const eventDate = new Date("2025-07-06T18:00:00");
 
@@ -91,33 +92,32 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
+    // Ensure the DOM is loaded before attaching event listener
     document.getElementById("rsvp-form").addEventListener("submit", function (e) {
-  e.preventDefault();
+      e.preventDefault();
 
-  const data = {
-    name: document.getElementById("name").value,
-    attendance: document.getElementById("attendance").value,
-    guests: document.getElementById("guests").value
-  };
+      const data = {
+        name: document.getElementById("name").value,
+        attendance: document.getElementById("attendance").value,
+        guests: document.getElementById("guests").value
+      };
 
-  fetch("https://script.google.com/macros/s/AKfycbxdcllq84AJPPvUUyxYBjHa1N-V4emJC_9uqgKbV69tGRM9zn9K_eHGWTwj0VP8doyQrA/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert("Thank you for your RSVP!");
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      alert("Submission failed. Try again later.");
+      fetch("https://script.google.com/macros/s/AKfycbxdcllq84AJPPvUUyxYBjHa1N-V4emJC_9uqgKbV69tGRM9zn9K_eHGWTwj0VP8doyQrA/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert("Thank you for your RSVP!");
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("Submission failed. Try again later.");
+      });
     });
-});
-
-
 </script>
 
 </body>
