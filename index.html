@@ -91,33 +91,32 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    document.getElementById("rsvp-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const data = {
-        name: form.name.value,
-        attendance: form.attendance.value,
-        guests: form.guests.value
-      };
+    document.getElementById("rsvp-form").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-      fetch("https://script.google.com/macros/s/AKfycbxdcllq84AJPPvUUyxYBjHa1N-V4emJC_9uqgKbV69tGRM9zn9K_eHGWTwj0VP8doyQrA/exec", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    name: "Your Name",
-    attendance: "Yes",
-    guests: 2
+  const data = {
+    name: document.getElementById("name").value,
+    attendance: document.getElementById("attendance").value,
+    guests: document.getElementById("guests").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxdcllq84AJPPvUUyxYBjHa1N-V4emJC_9uqgKbV69tGRM9zn9K_eHGWTwj0VP8doyQrA/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
   })
-})
-.then(response => response.json())
-.then(data => {
-  console.log("Success:", data);
-})
-.catch((error) => {
-  console.error("Error:", error);
+    .then(response => response.json())
+    .then(data => {
+      alert("Thank you for your RSVP!");
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Submission failed. Try again later.");
+    });
 });
+
 
 </script>
 
